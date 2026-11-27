@@ -1,0 +1,948 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nari Suraksha v4.0 — Offline-First, Zero-Login Android Women's Safety Console with 4-step shake SOS, auto-call, stealth black screen, and cloud audio backup.">
+    <title>Nari Suraksha (v4.0) — Offline-First Smart Safety Console</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deepBlue: '#050914',
+                        darkNavy: '#0A1226',
+                        cardBg: '#0F1B35',
+                        electricCyan: '#38BDF8',
+                        royalBlue: '#2563EB',
+                        sosRed: '#FF3366',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome 6 Free -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #050914;
+            overflow-x: hidden;
+        }
+        .cyber-grid {
+            background-image:
+                linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+        .glass-card {
+            background: linear-gradient(145deg, rgba(15, 27, 53, 0.78), rgba(9, 16, 34, 0.85));
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.16);
+            transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.42);
+            box-shadow: 0 12px 32px -12px rgba(56, 189, 248, 0.22);
+        }
+        @keyframes radarPulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.65); }
+            70% { transform: scale(1); box-shadow: 0 0 0 28px rgba(255, 51, 102, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); }
+        }
+        .sos-pulse {
+            animation: radarPulse 2s infinite;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+        }
+        .float-1 { animation: floatSlow 4.2s ease-in-out infinite; }
+        .float-2 { animation: floatSlow 5s ease-in-out infinite 0.7s; }
+        .float-3 { animation: floatSlow 4.6s ease-in-out infinite 1.2s; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+        .accordion-content.open {
+            grid-template-rows: 1fr;
+        }
+        .accordion-inner {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="text-slate-100 font-sans antialiased selection:bg-electricCyan selection:text-deepBlue">
+
+    <!-- STICKY NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-deepBlue/85 backdrop-blur-lg border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-royalBlue to-electricCyan flex items-center justify-center text-white shadow-lg shadow-electricCyan/25 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-shield-halved text-lg"></i>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="font-heading font-extrabold text-xl tracking-tight text-white">Nari Suraksha</span>
+                    <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-electricCyan/10 text-electricCyan border border-electricCyan/25">v4.0</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center gap-7 font-medium text-sm text-slate-300">
+                <a href="#home" class="hover:text-electricCyan transition-colors">Home</a>
+                <a href="#howitworks" class="hover:text-electricCyan transition-colors">Kibhabe Kaj Kore</a>
+                <a href="#features" class="hover:text-electricCyan transition-colors">11-ti Module</a>
+                <a href="#permissions" class="hover:text-electricCyan transition-colors">Permission</a>
+                <a href="#faq" class="hover:text-electricCyan transition-colors">Proshno o Uttor</a>
+            </nav>
+
+            <!-- CTA + Mobile Button -->
+            <div class="flex items-center gap-3">
+                <a href="#download" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-royalBlue to-electricCyan rounded-xl shadow-lg shadow-electricCyan/20 hover:shadow-electricCyan/45 hover:-translate-y-0.5 transition-all">
+                    <i class="fa-brands fa-android text-base"></i>
+                    APK Download
+                </a>
+                <button id="mobileMenuBtn" aria-label="Toggle Menu" class="lg:hidden text-slate-200 hover:text-electricCyan p-2 rounded-lg bg-slate-800/60 border border-slate-700/60">
+                    <i id="menuIcon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-darkNavy/95 backdrop-blur-xl border-b border-slate-800 px-5 py-5 space-y-3">
+            <a href="#home" class="block py-2 text-slate-200 hover:text-electricCyan font-medium">Home</a>
+            <a href="#howitworks" class="block py-2 text-slate-200 hover:text-electricCyan font-medium">Kibhabe Kaj Kore</a>
+            <a href="#features" class="block py-2 text-slate-200 hover:text-electricCyan font-medium">11-ti Core Module</a>
+            <a href="#permissions" class="block py-2 text-slate-200 hover:text-electricCyan font-medium">Permission</a>
+            <a href="#faq" class="block py-2 text-slate-200 hover:text-electricCyan font-medium">Proshno o Uttor</a>
+            <a href="#download" class="mt-2 w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-bold text-white bg-gradient-to-r from-royalBlue to-electricCyan rounded-xl">
+                <i class="fa-solid fa-download"></i> Free APK Download Korun
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative pt-12 pb-24 lg:pt-20 lg:pb-28 cyber-grid overflow-hidden">
+        <!-- Ambient Glow Orbs -->
+        <div class="absolute -top-24 left-1/3 w-[520px] h-[520px] bg-electricCyan/10 blur-[140px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-[440px] h-[440px] bg-royalBlue/15 blur-[130px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-14 lg:gap-8 items-center">
+
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-electricCyan/25 text-xs font-semibold text-electricCyan shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Offline-First • Zero-Login Privacy • Android Console v4.0
+                    </div>
+
+                    <h1 class="font-heading font-extrabold text-4xl sm:text-5xl lg:text-[3.5rem] tracking-tight text-white leading-[1.14]">
+                        Ekta Jhakunitei Purno Surokkha — <span class="text-transparent bg-clip-text bg-gradient-to-r from-electricCyan via-sky-300 to-blue-400">Internet Chharao Apnar Pashe.</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Bipoder muhurte screen unlock na korei emergency SMS, live GPS location, 30-second smart auto-call, gopon kalo screen ar high-quality audio proman save korar purnango smart safety app.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
+                        <a href="#download" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-base font-bold text-white bg-gradient-to-r from-royalBlue to-electricCyan rounded-2xl shadow-xl shadow-electricCyan/25 hover:shadow-electricCyan/45 hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-cloud-arrow-down text-lg"></i>
+                            Free APK Download Korun
+                        </a>
+                        <a href="#howitworks" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 text-base font-semibold text-slate-200 glass-card rounded-2xl hover:text-white transition-all">
+                            <i class="fa-solid fa-circle-play text-electricCyan"></i>
+                            Kibhabe Kaj Kore Dekhun
+                        </a>
+                    </div>
+
+                    <!-- Mini Trust Strip -->
+                    <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> 100% Free & Ad-Free</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Kono Login Lagbe Na</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> 4-Step Anti-False-Alarm</span>
+                    </div>
+                </div>
+
+                <!-- Right Interactive Phone Mockup (Badges OUTSIDE overflow-hidden!) -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-[305px]">
+
+                        <!-- Floating Badge 1 (Top Left - Safe from clipping) -->
+                        <div class="float-1 absolute -left-14 top-20 z-30 bg-slate-900/95 border border-electricCyan/35 px-3.5 py-2.5 rounded-xl shadow-xl backdrop-blur-md hidden sm:flex items-center gap-2.5 text-xs font-semibold text-slate-100">
+                            <span class="w-7 h-7 rounded-lg bg-electricCyan/15 text-electricCyan flex items-center justify-center">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                            </span>
+                            <div>
+                                <div class="text-[11px] leading-tight">100m Safe Zone</div>
+                                <div class="text-[10px] text-emerald-400 font-normal">GPS Active</div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge 2 (Middle Right) -->
+                        <div class="float-2 absolute -right-14 top-48 z-30 bg-slate-900/95 border border-emerald-500/35 px-3.5 py-2.5 rounded-xl shadow-xl backdrop-blur-md hidden sm:flex items-center gap-2.5 text-xs font-semibold text-slate-100">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+                                <i class="fa-solid fa-microphone-lines"></i>
+                            </span>
+                            <div>
+                                <div class="text-[11px] leading-tight">48kHz Audio Proof</div>
+                                <div class="text-[10px] text-slate-400 font-normal">Stealth Folder</div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge 3 (Bottom Left) -->
+                        <div class="float-3 absolute -left-12 bottom-20 z-30 bg-slate-900/95 border border-amber-500/35 px-3.5 py-2.5 rounded-xl shadow-xl backdrop-blur-md hidden sm:flex items-center gap-2.5 text-xs font-semibold text-slate-100">
+                            <span class="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center">
+                                <i class="fa-solid fa-tower-broadcast"></i>
+                            </span>
+                            <div>
+                                <div class="text-[11px] leading-tight">Offline SMS + Call</div>
+                                <div class="text-[10px] text-amber-300 font-normal">No Internet Needed</div>
+                            </div>
+                        </div>
+
+                        <!-- Actual Phone Frame -->
+                        <div class="relative w-full aspect-[9/18.2] bg-darkNavy rounded-[42px] border-[5px] border-slate-700/90 shadow-2xl shadow-electricCyan/10 p-4 flex flex-col justify-between overflow-hidden">
+                            <!-- Speaker Notch -->
+                            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-slate-950 rounded-full z-20 flex items-center justify-center">
+                                <div class="w-10 h-1 bg-slate-700 rounded-full"></div>
+                            </div>
+
+                            <!-- Screen Header -->
+                            <div class="pt-7 pb-3 flex items-center justify-between border-b border-slate-800/90">
+                                <div>
+                                    <div class="text-xs font-extrabold text-electricCyan tracking-wide">NARI SURAKSHA</div>
+                                    <div class="text-[10px] text-slate-400">Console v4.0 • Live Demo</div>
+                                </div>
+                                <span id="simBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                    READY
+                                </span>
+                            </div>
+
+                            <!-- Interactive SOS Center -->
+                            <div class="my-auto flex flex-col items-center justify-center py-4">
+                                <button id="demoSosBtn" type="button" class="relative flex items-center justify-center group focus:outline-none">
+                                    <span id="demoPulseRing" class="absolute w-36 h-36 rounded-full sos-pulse bg-sosRed/20 pointer-events-none"></span>
+                                    <span class="relative w-28 h-28 rounded-full bg-gradient-to-tr from-rose-600 via-sosRed to-pink-500 flex flex-col items-center justify-center text-white font-black shadow-xl shadow-sosRed/40 group-hover:scale-105 active:scale-95 transition-transform">
+                                        <i id="demoSosIcon" class="fa-solid fa-triangle-exclamation text-2xl mb-1"></i>
+                                        <span id="demoSosLabel" class="text-xl tracking-wide leading-none">SOS</span>
+                                        <span id="demoSosSub" class="text-[9px] font-semibold opacity-90 mt-1">TAP FOR DEMO</span>
+                                    </span>
+                                </button>
+
+                                <!-- Live Simulation Feed Inside Phone -->
+                                <div id="simStatusBox" class="mt-7 w-full rounded-xl bg-slate-900/90 border border-slate-800 p-3 text-center transition-all">
+                                    <div id="simStepTitle" class="text-[11px] font-bold text-slate-200">
+                                        Demo Dekhte SOS Button-e Tap Korun
+                                    </div>
+                                    <div id="simStepDesc" class="text-[10px] text-slate-400 mt-1">
+                                        Real app-e 4 bar biporit jhakuni ba tap-ei chalu hoy
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mini Storage & Cloud Bar inside Phone -->
+                            <div class="rounded-xl bg-slate-900/80 border border-slate-800/90 px-3 py-2 flex items-center justify-between text-[10px]">
+                                <span class="flex items-center gap-1.5 text-slate-300">
+                                    Storage <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                </span>
+                                <span class="flex items-center gap-1.5 text-slate-300">
+                                    Cloud Sync <i id="simCloudIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+                                </span>
+                            </div>
+
+                            <!-- Bottom Home Pill -->
+                            <div class="pt-3 pb-1 text-center">
+                                <div class="w-28 h-1 bg-slate-700 mx-auto rounded-full"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK HIGHLIGHTS STRIP -->
+    <section class="py-14 bg-darkNavy/60 border-y border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-electricCyan/10 border border-electricCyan/25 flex items-center justify-center text-electricCyan mb-4 text-xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-lg mb-2">11 Storer Surokkha</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Phone jhakano theke shuru kore jor kore shutdown ba airplane mode porjonto purno nojordari.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-blue-400 mb-4 text-xl">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-lg mb-2">Zero-Login Privacy</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Kono email ba password charai protita phone-er alada o sthayi gopon Device ID toiri hoy.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 mb-4 text-xl">
+                        <i class="fa-solid fa-tower-broadcast"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-lg mb-2">Offline-First System</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Internet na thakleo offline SMS ar auto-call cholbe; net phirlei automatic cloud backup hoy.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl hover:-translate-y-1 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 mb-4 text-xl">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-lg mb-2">Complete Stealth Mode</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Gopon kalo screen, shob speaker mute ar lukano folder-e 48kHz high-quality audio proman.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- KIBHABE KAJ KORE (5-STEP INTERACTIVE TIMELINE) -->
+    <section id="howitworks" class="py-24 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4 reveal">
+                <span class="text-xs font-bold uppercase tracking-widest text-electricCyan bg-electricCyan/10 px-3.5 py-1.5 rounded-full border border-electricCyan/25">5-Step SOS Workflow</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-white">Bipoder Muhurte App-ti Kibhabe Kaj Kore?</h2>
+                <p class="text-slate-400 text-base sm:text-lg">Shuru theke shesh porjonto 5-ti dhhape purno SOS surokkha chokro.</p>
+            </div>
+
+            <div class="space-y-8 relative before:absolute before:inset-0 before:left-6 sm:before:left-1/2 before:-translate-x-px before:w-0.5 before:bg-gradient-to-b before:from-electricCyan before:via-royalBlue before:to-slate-800">
+
+                <!-- Step 1 -->
+                <div class="relative flex items-center justify-end sm:justify-start reveal">
+                    <div class="absolute left-6 sm:left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-darkNavy border-2 border-electricCyan flex items-center justify-center text-electricCyan text-xs font-extrabold z-10 shadow-lg shadow-electricCyan/25">1</div>
+                    <div class="w-full sm:w-[calc(50%-2.75rem)] ml-14 sm:ml-0 glass-card p-6 rounded-2xl">
+                        <span class="text-xs font-bold text-electricCyan uppercase tracking-wider">Dhap 1 • Trigger</span>
+                        <h3 class="font-heading font-bold text-xl text-white mt-1 mb-2.5">SOS Chalu Howar Niyom</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Dui bhabe SOS chalu kora jay: Hate SOS button chepe (kono opekka ba lock charai) othoba screen unlock na korei phone druto jhakiye. Bhul alarm atkate 4-ti strict filter kaj kore: hat theke pore gele 0.11s free-fall filter-e 0.8s sensor lock, kompokkhe 13.5 matrar jhakuni, 0.15s theke 0.5s byabodhane porpor 4 bar biporit dike jhakuni ebong 60 second-er cooldown lock. Chalu holei 2 ghontar WakeLock active hoye jay.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex items-center justify-end sm:justify-end reveal">
+                    <div class="absolute left-6 sm:left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-darkNavy border-2 border-electricCyan flex items-center justify-center text-electricCyan text-xs font-extrabold z-10 shadow-lg shadow-electricCyan/25">2</div>
+                    <div class="w-full sm:w-[calc(50%-2.75rem)] ml-14 sm:ml-0 glass-card p-6 rounded-2xl">
+                        <span class="text-xs font-bold text-electricCyan uppercase tracking-wider">Dhap 2 • Instant Alert</span>
+                        <h3 class="font-heading font-bold text-xl text-white mt-1 mb-2.5">Shobar Kache Ekshathe Emergency SMS o Location</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">SOS chalu howamatro save kora shob emergency number-e ekshathe SMS chole jay. Message-e thake apnar custom bipod-barta, thik tarikh o shomoy, bortoman live Google Maps link, ager location-er shathe shomoyer byabodhan, cloud backup link, battery percentage ar ping shongkha.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex items-center justify-end sm:justify-start reveal">
+                    <div class="absolute left-6 sm:left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-darkNavy border-2 border-electricCyan flex items-center justify-center text-electricCyan text-xs font-extrabold z-10 shadow-lg shadow-electricCyan/25">3</div>
+                    <div class="w-full sm:w-[calc(50%-2.75rem)] ml-14 sm:ml-0 glass-card p-6 rounded-2xl">
+                        <span class="text-xs font-bold text-electricCyan uppercase tracking-wider">Dhap 3 • Smart Calling</span>
+                        <h3 class="font-heading font-bold text-xl text-white mt-1 mb-2.5">Primary o Backup Number-e Automatic Call</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">SMS jawar 2 second por system shudhu prothom (Primary) number-e call dial kore. 30 second-er modhye call receive hole kotha cholte thake ebong backup call cancel hoye jay. Ar 30 second-e call na dhorle ba kete dile 3 second por automatic Backup ba Police Helpline-e call ghure jay.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative flex items-center justify-end sm:justify-end reveal">
+                    <div class="absolute left-6 sm:left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-darkNavy border-2 border-electricCyan flex items-center justify-center text-electricCyan text-xs font-extrabold z-10 shadow-lg shadow-electricCyan/25">4</div>
+                    <div class="w-full sm:w-[calc(50%-2.75rem)] ml-14 sm:ml-0 glass-card p-6 rounded-2xl">
+                        <span class="text-xs font-bold text-electricCyan uppercase tracking-wider">Dhap 4 • Stealth Mode</span>
+                        <h3 class="font-heading font-bold text-xl text-white mt-1 mb-2.5">Gopon Kalo Screen (Stealth Black Screen)</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Call shesh howar por puro screen-er upor ekta kalo porda boshe jay ebong phone-er shob speaker, ringtone o notification mute hoye jay—jate keu kichu bujhte na pare, kintu microphone chalu thake. Power button-e single click kore normal PIN/fingerprint diye unlock korlei phone abar shabhabik hoye jay.</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="relative flex items-center justify-end sm:justify-start reveal">
+                    <div class="absolute left-6 sm:left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-darkNavy border-2 border-electricCyan flex items-center justify-center text-electricCyan text-xs font-extrabold z-10 shadow-lg shadow-electricCyan/25">5</div>
+                    <div class="w-full sm:w-[calc(50%-2.75rem)] ml-14 sm:ml-0 glass-card p-6 rounded-2xl">
+                        <span class="text-xs font-bold text-electricCyan uppercase tracking-wider">Dhap 5 • Evidence & Cloud</span>
+                        <h3 class="font-heading font-bold text-xl text-white mt-1 mb-2.5">Gopon Audio Recording o Cloud Upload</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">SOS cholakalin background-e kono notification charai lukano folder-e charpasher shob kotha high-quality-te record hoy. Nirapod hoye abar SOS button chepe bondho korlei audio-ti app-e dekha jay. Niche Phone Storage ar Cloud Upload-er jonno shobuj tick (sofol) ar lal cross (baki/offline) status dekhay.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Visual Evidence Status Showcase Card -->
+            <div class="mt-16 glass-card rounded-2xl p-6 sm:p-8 border border-electricCyan/25 reveal">
+                <div class="grid md:grid-cols-12 gap-6 items-center">
+                    <div class="md:col-span-6 space-y-2">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-electricCyan">App-er Bhetorer Proman Status</span>
+                        <h3 class="font-heading font-bold text-xl text-white">Ek Nojore Bujhe Nin Proman Surakkhito Ache Kina</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">SOS bondho korar por protita audio card-er niche 2-ti clear status indicator thake. Phone theke audio delete korleo Cloud Backup surakkhito thake.</p>
+                    </div>
+                    <div class="md:col-span-6 grid sm:grid-cols-2 gap-4">
+                        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2">
+                            <div class="text-xs font-bold text-white flex items-center justify-between">
+                                <span>SOS_REC_2026.m4a</span>
+                                <span class="text-[10px] text-slate-400">48kHz</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                                <span class="text-slate-300 flex items-center gap-1.5">Storage <i class="fa-solid fa-circle-check text-emerald-400"></i></span>
+                                <span class="text-slate-300 flex items-center gap-1.5">Cloud <i class="fa-solid fa-circle-check text-emerald-400"></i></span>
+                            </div>
+                            <div class="text-[10px] text-emerald-400">Shobuj Tick = Phone o Cloud duitei save hoyeche</div>
+                        </div>
+                        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2">
+                            <div class="text-xs font-bold text-white flex items-center justify-between">
+                                <span>SOS_REC_OFFLINE.m4a</span>
+                                <span class="text-[10px] text-slate-400">Pending</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                                <span class="text-slate-300 flex items-center gap-1.5">Storage <i class="fa-solid fa-circle-check text-emerald-400"></i></span>
+                                <span class="text-slate-300 flex items-center gap-1.5">Cloud <i class="fa-solid fa-circle-xmark text-rose-500"></i></span>
+                            </div>
+                            <div class="text-[10px] text-amber-300">Lal Cross = Offline ache, net phirlei auto-upload hobe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 11-TI CORE SECURITY MODULE (TRUE INTERACTIVE ACCORDION) -->
+    <section id="features" class="py-24 bg-darkNavy/45 border-t border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 reveal">
+                <div class="max-w-2xl space-y-3 text-center md:text-left">
+                    <span class="text-xs font-bold uppercase tracking-widest text-electricCyan bg-electricCyan/10 px-3.5 py-1.5 rounded-full border border-electricCyan/25">11 Audited Modules</span>
+                    <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-white">Nari Suraksha-r 11-ti Core Security Module</h2>
+                    <p class="text-slate-400 text-base">Jekono card-e click kore tar bhetorer purno logic ebong kokhon kaj kore na ta bistarito dekhun.</p>
+                </div>
+                <div class="flex justify-center md:justify-end">
+                    <button id="toggleAllModulesBtn" type="button" class="px-5 py-2.5 rounded-xl text-xs font-bold text-electricCyan bg-electricCyan/10 border border-electricCyan/30 hover:bg-electricCyan/20 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                        <span id="toggleAllModulesText">Shob Bistarito Khulun</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modules Grid injected cleanly via JS for zero duplication -->
+            <div id="modulesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-start"></div>
+
+        </div>
+    </section>
+
+    <!-- PERMISSIONS & TRANSPARENCY SECTION -->
+    <section id="permissions" class="py-24 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4 reveal">
+                <span class="text-xs font-bold uppercase tracking-widest text-electricCyan bg-electricCyan/10 px-3.5 py-1.5 rounded-full border border-electricCyan/25">100% Transparency</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-white">App-ti Shothikbhabe Cholar Jonno Je Permission-gulo Lagbe</h2>
+                <p class="text-slate-400 text-base sm:text-lg">Apnar goponiyota-ke shomman korai amader prothom dayitto. Jene nin kon permission thik keno dorkar.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div class="glass-card p-6 rounded-2xl reveal">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/25 flex items-center justify-center text-blue-400 mb-4 text-lg">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-base mb-2">Display Over Other Apps (Overlay)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Call sheshe gopon kalo screen (Stealth Black Screen) dekhanor jonno ebong prothom setup complete korar jonno.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl reveal">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 mb-4 text-lg">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-base mb-2">Location (GPS & Background)</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Emergency SMS-e live Google Maps link pathano, 100m Safe Zone mapa ar proti 15 minute-e heartbeat ping korar jonno.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl reveal">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400 mb-4 text-lg">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-base mb-2">SMS, Phone Call & Call Log</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Offline emergency SMS pathano, automatic dial kora ebong 30 second-e call receive hoyeche kina ta jachai korar jonno.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl reveal">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/25 flex items-center justify-center text-rose-400 mb-4 text-lg">
+                        <i class="fa-solid fa-microphone"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-base mb-2">Microphone</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">SOS call sheshe background-e 48kHz high-quality gopon audio proman record korar jonno.</p>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl sm:col-span-2 reveal">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/25 flex items-center justify-center text-purple-400 mb-4 text-lg">
+                        <i class="fa-solid fa-battery-full"></i>
+                    </div>
+                    <h3 class="font-heading font-bold text-white text-base mb-2">Battery Optimization Off, Notification & Auto-Start</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Background-e 24/7 shake detection o Deadman Receiver chalu rakha ebong phone restart-er por automatic surokkha phire pawar jonno.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-24 bg-darkNavy/40 border-t border-slate-800/80">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="text-center max-w-2xl mx-auto mb-14 space-y-3 reveal">
+                <span class="text-xs font-bold uppercase tracking-widest text-electricCyan bg-electricCyan/10 px-3.5 py-1.5 rounded-full border border-electricCyan/25">FAQ</span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-white">Shadharon Proshno o Uttor</h2>
+                <p class="text-slate-400 text-base">App byabohar korar age shobcheye beshi jiggesh kora proshnogulor uttor.</p>
+            </div>
+
+            <div id="faqList" class="space-y-4"></div>
+
+        </div>
+    </section>
+
+    <!-- PREMIUM APK DOWNLOAD & INSTALL GUIDE SECTION -->
+    <section id="download" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-tr from-electricCyan/10 via-transparent to-royalBlue/10 pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+            <div class="glass-card rounded-3xl p-8 sm:p-12 border border-electricCyan/35 shadow-2xl shadow-electricCyan/10 text-center space-y-8 reveal">
+
+                <div class="space-y-4 max-w-2xl mx-auto">
+                    <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-electricCyan bg-electricCyan/10 px-4 py-1.5 rounded-full border border-electricCyan/25">
+                        <i class="fa-brands fa-android"></i> Official Android Release
+                    </span>
+                    <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-white">Nari Suraksha v4.0 Download Korun</h2>
+                    <p class="text-slate-300 text-base">Apnar nirapod pothcholar shathi ekhoni Android phone-e free install korun.</p>
+                </div>
+
+                <!-- Specs Pills -->
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    <span class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-xs font-semibold text-slate-200"><i class="fa-solid fa-code-branch text-electricCyan mr-1.5"></i>Version: v4.0</span>
+                    <span class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-xs font-semibold text-slate-200"><i class="fa-brands fa-android text-emerald-400 mr-1.5"></i>Android 8.0+</span>
+                    <span class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-xs font-semibold text-slate-200"><i class="fa-solid fa-wifi text-amber-400 mr-1.5"></i>Offline-First</span>
+                    <span class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-xs font-semibold text-slate-200"><i class="fa-solid fa-lock-open text-sky-400 mr-1.5"></i>Zero Login</span>
+                </div>
+
+                <!-- Big Download CTA -->
+                <div class="pt-2">
+                    <a href="YOUR_APK_DOWNLOAD_LINK" class="inline-flex items-center justify-center gap-3 px-9 py-5 text-base sm:text-lg font-extrabold text-white bg-gradient-to-r from-royalBlue to-electricCyan rounded-2xl shadow-xl shadow-electricCyan/30 hover:shadow-electricCyan/55 hover:-translate-y-1 transition-all">
+                        <i class="fa-solid fa-cloud-arrow-down text-2xl"></i>
+                        Ekhoni Free APK Download Korun
+                    </a>
+                    <p class="text-[11px] text-slate-400 mt-3">Install korar shomoy "Install from Unknown Sources" allow korun.</p>
+                </div>
+
+                <!-- 3 Simple Install Steps -->
+                <div class="pt-8 border-t border-slate-800/90 text-left grid sm:grid-cols-3 gap-6">
+                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-electricCyan/15 text-electricCyan font-extrabold flex items-center justify-center text-sm">1</div>
+                        <h4 class="font-heading font-bold text-white text-sm">APK Install Korun</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Uporer button theke APK file-ti download kore apnar Android phone-e install korun.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-electricCyan/15 text-electricCyan font-extrabold flex items-center justify-center text-sm">2</div>
+                        <h4 class="font-heading font-bold text-white text-sm">Permission Allow Korun</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Prothom bar app khule Overlay (Display Over Other Apps), Location, SMS, Call ar Mic allow korun.</p>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 space-y-2">
+                        <div class="w-8 h-8 rounded-lg bg-electricCyan/15 text-electricCyan font-extrabold flex items-center justify-center text-sm">3</div>
+                        <h4 class="font-heading font-bold text-white text-sm">Contact o Safe Zone Save</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">Emergency contact, Police Helpline ar Guardian Mode diye Safe Zone save kore nishchinto thakun.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-deepBlue border-t border-slate-800/90 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+
+            <div class="space-y-2">
+                <div class="flex items-center justify-center md:justify-start gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-royalBlue to-electricCyan flex items-center justify-center text-white">
+                        <i class="fa-solid fa-shield-halved text-sm"></i>
+                    </div>
+                    <span class="font-heading font-extrabold text-white text-lg">Nari Suraksha <span class="text-xs text-electricCyan font-semibold">v4.0</span></span>
+                </div>
+                <p class="text-slate-400 text-sm">Nari Suraksha — Narir nirapod pothcholar nirbhorjoggo shongi.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-slate-400">
+                <a href="#howitworks" class="hover:text-electricCyan transition-colors">Kibhabe Kaj Kore</a>
+                <a href="#features" class="hover:text-electricCyan transition-colors">11-ti Module</a>
+                <a href="#permissions" class="hover:text-electricCyan transition-colors">Permission</a>
+                <a href="#download" class="hover:text-electricCyan transition-colors">Download</a>
+            </div>
+
+            <!-- Developer Credit -->
+            <div class="glass-card px-5 py-3 rounded-xl border border-electricCyan/25">
+                <div class="text-[11px] text-slate-400">Designed &amp; Developed by</div>
+                <div class="font-heading font-bold text-electricCyan text-sm">Snehasis Sengupta</div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="backToTop" aria-label="Back to top" class="fixed bottom-6 right-6 z-40 w-11 h-11 rounded-xl bg-gradient-to-tr from-royalBlue to-electricCyan text-white shadow-lg shadow-electricCyan/30 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:-translate-y-1">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            menuIcon.className = isHidden ? 'fa-solid fa-bars text-xl' : 'fa-solid fa-xmark text-xl';
+        });
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.className = 'fa-solid fa-bars text-xl';
+            });
+        });
+
+        // 2. Interactive Hero Phone SOS Simulator
+        const demoSosBtn = document.getElementById('demoSosBtn');
+        const simBadge = document.getElementById('simBadge');
+        const demoSosLabel = document.getElementById('demoSosLabel');
+        const demoSosSub = document.getElementById('demoSosSub');
+        const simStepTitle = document.getElementById('simStepTitle');
+        const simStepDesc = document.getElementById('simStepDesc');
+        const simStatusBox = document.getElementById('simStatusBox');
+
+        let simActive = false;
+        let simTimers = [];
+
+        function resetSimulation() {
+            simTimers.forEach(t => clearTimeout(t));
+            simTimers = [];
+            simActive = false;
+            simBadge.textContent = 'READY';
+            simBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+            demoSosLabel.textContent = 'SOS';
+            demoSosSub.textContent = 'TAP FOR DEMO';
+            simStatusBox.className = 'mt-7 w-full rounded-xl bg-slate-900/90 border border-slate-800 p-3 text-center transition-all';
+            simStepTitle.textContent = 'Demo Dekhte SOS Button-e Tap Korun';
+            simStepDesc.textContent = 'Real app-e 4 bar biporit jhakuni ba tap-ei chalu hoy';
+        }
+
+        demoSosBtn.addEventListener('click', () => {
+            if (simActive) {
+                resetSimulation();
+                return;
+            }
+            simActive = true;
+            simBadge.textContent = 'SOS ACTIVE';
+            simBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-sosRed/20 text-sosRed border border-sosRed/40 animate-pulse';
+            demoSosLabel.textContent = 'STOP';
+            demoSosSub.textContent = 'TAP TO RESET';
+            simStatusBox.className = 'mt-7 w-full rounded-xl bg-rose-950/50 border border-sosRed/40 p-3 text-center transition-all';
+
+            const steps = [
+                { delay: 0, title: 'Dhap 1: SOS Triggered (WakeLock ON)', desc: 'Shob emergency number-e GPS SMS pathano hocche...' },
+                { delay: 2200, title: 'Dhap 2: Primary Number-e Auto Call', desc: '30s ring check; na dhorle 3s por Police Helpline dial...' },
+                { delay: 4600, title: 'Dhap 3: Stealth Black Screen Active', desc: 'Screen kalo, speaker mute — shudhu mic chalu ache...' },
+                { delay: 7000, title: 'Dhap 4: 48kHz Gopon Audio Recording', desc: 'Lukano folder-e save ebong cloud backup sync cholche!' }
+            ];
+
+            steps.forEach(step => {
+                const timer = setTimeout(() => {
+                    if (!simActive) return;
+                    simStepTitle.textContent = step.title;
+                    simStepDesc.textContent = step.desc;
+                }, step.delay);
+                simTimers.push(timer);
+            });
+        });
+
+        // 3. 11 Audited Core Security Modules Data (100% Code Verified)
+        const modulesData = [
+            {
+                num: '01',
+                icon: 'fa-bell',
+                title: 'Smart SOS & Shake Trigger',
+                codeName: 'SafetyService',
+                summary: 'Manual tap o 4-step biporit jhakunite SOS, instant SMS, 30s auto-call ar stealth black screen.',
+                details: 'Hate button chaple kono lock charai SOS chalu hoy. Jhakunir khetre 0.11s free-fall filter (0.8s lock), kompokkhe 13.5 shokti, 0.15s-0.5s gap-e porpor 4 bar biporit jhakuni ar 60s cooldown lock kaj kore. Chalu holei 2 ghontar WakeLock active hoye SMS, Primary/Backup call o kalo screen chalu kore.',
+                limit: 'Background SafetyService bondho thakle ba SMS/Call/Location permission reject kora thakle kaj kore na.'
+            },
+            {
+                num: '02',
+                icon: 'fa-microphone-lines',
+                title: 'Gopon Audio Proof Recorder',
+                codeName: 'AudioLogger',
+                summary: 'Call sheshe lukano folder-e 48kHz high-quality audio recording o automatic cloud upload.',
+                details: 'Call chola obosthay microphone call-er jonno chhere dey. Call shesh holei (.stealth_audio_logs) lukano folder-e tarikh-shomoy shoho 48kHz/192kbps AAC (support na korle 44.1kHz/128kbps fallback) record hoy. 0-byte khali file auto-delete kore ebong stop howamatro cloud backup trigger kore.',
+                limit: 'Phone call chalu thaka obosthay, microphone permission bondho thakle ba phone storage full thakle record hoy na.'
+            },
+            {
+                num: '03',
+                icon: 'fa-phone-volume',
+                title: 'Emergency Call Monitor',
+                codeName: 'EmergencyCallMonitor',
+                summary: 'Android 12+ o purono shob version-e private earpiece routing o 30s call cycle monitoring.',
+                details: 'Call dial howamatro loudspeaker automatic off kore audio shudhu earpiece-e pathay ar mic chalu rakhe jate ashpashe keu shunte na pay. 30 second-er ring chokro sesh hoye call kete gele sathe sathe Stealth Black Screen o AudioLogger chalu korar signal pathay.',
+                limit: 'SOS chalu na thakle, Phone State permission bondho thakle ba SIM/network bihin device-e kaj kore na.'
+            },
+            {
+                num: '04',
+                icon: 'fa-cloud-arrow-up',
+                title: 'Zero-Login & Double Cloud Backup',
+                codeName: 'CloudBackupManager',
+                summary: 'Login charai gopon Device ID, emergency data sync ebong double-route backup system.',
+                details: 'Kono account charai protita phone-er alada permanent Device ID toiri hoy. Emergency location, battery ar audio cloud-e sync hoy. Prothom server fail korle direct backup route-e Double-Backup chesta kore ar eki audio duibar upload howa atkay.',
+                limit: 'Internet puro bondho thakle tatkhonik upload hoy na — tobe net phirlei baki audio automatic upload hoye jay.'
+            },
+            {
+                num: '05',
+                icon: 'fa-signal',
+                title: 'Smart Network Drop Monitor',
+                codeName: 'NetworkDropMonitor',
+                summary: '15-second internet drop filter ebong net phire ashle 3-ti smart recovery action.',
+                details: 'Shudhu real internet jachai kore (Wi-Fi/Data switch ignore kore). SOS active thakle tana 15 second offline thakle emergency SMS jay. Net phirle 3-ti alada bebostha: suspicious airplane alert SMS, normal obosthay 60s cooldown-e safe check-in, ar SOS cholle live location update.',
+                limit: 'User 100 meter Safe Zone-er bhetore thakle ba main SafetyService bondho thakle network drop alert pathay na.'
+            },
+            {
+                num: '06',
+                icon: 'fa-battery-quarter',
+                title: 'Deadman Receiver',
+                codeName: 'Battery, Shutdown & Airplane',
+                summary: 'Low battery, jor kore suspicious shutdown ar suspicious airplane mode-e chudanto shotorkota.',
+                details: 'Low Battery: SOS thakle SMS+Cloud, normal-e silent Cloud. Shutdown: 0-7% charge-e natural battery death (SOS thakle shesh SMS); 7%-er beshi charge-e SOS obosthay ba Safe Zone-er baire locked phone off korle Suspicious Forced Shutdown SMS! Airplane Mode: SOS ba Safe Zone-er baire lock screen theke on korle pending alert save hoy, net phirlei SMS jay.',
+                limit: 'SafetyService off thakle ba sudden hardware crash-e system shutdown signal na pele kaj kore na.'
+            },
+            {
+                num: '07',
+                icon: 'fa-map-pin',
+                title: '100m Safe Zone & Auto-Sleep',
+                codeName: 'SafeZoneManager',
+                summary: 'High-accuracy GPS diye bari/office save kore battery bachano o bhul alert atkano.',
+                details: 'Guardian Mode diye bari ba office-er 100 meter elaka Safe Zone save kora jay. Bhetore thakle auto-sleep mode-e battery banche o bhul network drop alert jay na. Tobe bhetore thekeo SOS chaple 100% surokkha chalu hoy.',
+                limit: 'Safe Zone save na thakle ba GPS na pele system kono jhuki na niye user-ke baire dhore purno surokkha chalu rakhe.'
+            },
+            {
+                num: '08',
+                icon: 'fa-heart-pulse',
+                title: 'Background Heartbeat Ping',
+                codeName: 'HeartbeatWorker',
+                summary: 'Safe Zone-er baire thakle app bondho thakleo proti 15 minute porpor location update.',
+                details: 'App background-e thakleo proti 15 minute ontor battery-friendly location, shomoy, ping shongkha ar battery percentage save kore. SOS chalu thakle ei update shorashori cloud-e pathay.',
+                limit: 'User 100m Safe Zone-er bhetore thakle battery bachate eta sleep mode-e thake; extreme battery saver-e deri hote pare.'
+            },
+            {
+                num: '09',
+                icon: 'fa-file-shield',
+                title: 'Internal Blackbox Log',
+                codeName: 'NsBlackbox',
+                summary: 'Downloads/ns_debug.txt file-e shob SOS, audio, call o sensor ghotonar nirob itihash.',
+                details: 'Bimaner blackbox-er moto protita guruttopurno ghotona (shake SOS, audio save, call, black screen) shothik tarikh o shomoy shoho silent background thread-e append kore rakhe, purono log muche na.',
+                limit: 'Phone-er storage puro bhorti hoye gele ba app-er file lekhar odhikar block thakle notun log save hoy na.'
+            },
+            {
+                num: '10',
+                icon: 'fa-power-off',
+                title: 'Auto Boot Restart Safety',
+                codeName: 'BootReceiver',
+                summary: 'Phone restart, quick boot ba app update-er por prothom unlock-ei auto-restart.',
+                details: 'Phone off kore abar on korle ba app update hole Direct Boot surakkhay crash charai prothom unlock howamatro SafetyService abar background-e chalu hoye jay.',
+                limit: 'Phone-er settings theke app-er Auto-Start permission bondho thakle ba user Force Stop kore rakhle chalu hoy na.'
+            },
+            {
+                num: '11',
+                icon: 'fa-sliders',
+                title: 'Main Control Console & Player',
+                codeName: 'MainActivity',
+                summary: 'Overlay setup, live SOS button, contacts, auto-save custom message ar audio player.',
+                details: 'Prothom setup-e Overlay o shob permission niye background service chalu kore. Prothom contact Primary Call hishebe dhore, Police Helpline o auto-save custom message rakhe. Built-in audio player-e Storage ar Cloud-er Green Tick / Red Cross status dekhay.',
+                limit: 'Overlay permission na dile setup screen-ei atke thake; emergency contact save na korle SMS/Call pathano shombhob hoy na.'
+            }
+        ];
+
+        const modulesGrid = document.getElementById('modulesGrid');
+        modulesData.forEach((mod, idx) => {
+            const card = document.createElement('div');
+            card.className = 'glass-card rounded-2xl p-6 cursor-pointer select-none reveal';
+            card.dataset.moduleCard = idx;
+            card.innerHTML = `
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-electricCyan/10 border border-electricCyan/25 flex items-center justify-center text-electricCyan shrink-0">
+                            <i class="fa-solid ${mod.icon} text-lg"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-mono font-bold text-electricCyan">MODULE ${mod.num}</span>
+                                <span class="text-[10px] text-slate-400">• ${mod.codeName}</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-white leading-snug mt-0.5">${mod.title}</h3>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-slate-400 text-xs mt-2 transition-transform duration-300 chevron-icon"></i>
+                </div>
+
+                <p class="text-slate-300 text-sm leading-relaxed mt-4">${mod.summary}</p>
+
+                <div class="accordion-content mt-2">
+                    <div class="accordion-inner">
+                        <div class="pt-4 mt-3 border-t border-slate-800/90 space-y-3 text-xs leading-relaxed">
+                            <div class="bg-slate-900/70 rounded-xl p-3 border border-slate-800">
+                                <div class="font-bold text-electricCyan mb-1"><i class="fa-solid fa-gears mr-1.5"></i>Kibhabe Kaj Kore:</div>
+                                <p class="text-slate-300">${mod.details}</p>
+                            </div>
+                            <div class="bg-amber-950/25 rounded-xl p-3 border border-amber-500/20">
+                                <div class="font-bold text-amber-400 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i>Kokhon Kaj Kore Na:</div>
+                                <p class="text-slate-300">${mod.limit}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                const content = card.querySelector('.accordion-content');
+                const chevron = card.querySelector('.chevron-icon');
+                const isOpen = content.classList.toggle('open');
+                chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+
+            modulesGrid.appendChild(card);
+        });
+
+        // Expand / Collapse All Modules
+        const toggleAllModulesBtn = document.getElementById('toggleAllModulesBtn');
+        const toggleAllModulesText = document.getElementById('toggleAllModulesText');
+        let allModulesExpanded = false;
+
+        toggleAllModulesBtn.addEventListener('click', () => {
+            allModulesExpanded = !allModulesExpanded;
+            document.querySelectorAll('#modulesGrid [data-module-card]').forEach(card => {
+                const content = card.querySelector('.accordion-content');
+                const chevron = card.querySelector('.chevron-icon');
+                content.classList.toggle('open', allModulesExpanded);
+                chevron.style.transform = allModulesExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+            toggleAllModulesText.textContent = allModulesExpanded ? 'Shob Bondho Korun' : 'Shob Bistarito Khulun';
+        });
+
+        // 4. FAQ Section Data & Accordion
+        const faqData = [
+            {
+                q: 'Internet na thakle ki Nari Suraksha kaj korbe?',
+                a: 'Hya! Eta 100% Offline-First system. Internet na thakleo apnar SOS SMS (shesh location shoho), Primary o Backup call, Stealth Black Screen ar Gopon Audio Recording purnobhabe kaj korbe. Pore internet phirlei baki audio o data automatic cloud-e backup hoye jabe.'
+            },
+            {
+                q: 'Bhul kore phone hat theke pore gele ki SOS chalu hoye jabe?',
+                a: 'Na. Bhul alarm atkate app-e 4-storer filter ache — phone pore gele 0.11 second-er free-fall filter sensor-ke 0.8 second-er jonno lock kore dey. Shudhu 0.15s theke 0.5s gap-e porpor 4 bar biporit dike jore jhakalei SOS chalu hoy.'
+            },
+            {
+                q: 'App-er bhetor theke audio delete korle ki Cloud Backup-eo muche jabe?',
+                a: 'Na. Phone-er space khali korar jonno apni audio file delete korleo ta shudhu phone-er local storage theke muche jabe — age theke upload howa Cloud Backup shompurno surakkhito thakbe.'
+            },
+            {
+                q: 'Kono account, email ba password diye login korte hobe ki?',
+                a: 'Ekdomi na. Zero-Login Privacy system-er madhyome protita phone-er jonno alada o sthayi gopon Device ID toiri hoy. Apnar kono personal email ba password dewar proyojon nei.'
+            },
+            {
+                q: 'Gopon Kalo Screen (Stealth Black Screen) theke abar normal phone-e phirbo kibhabe?',
+                a: 'Khub shohoj — Power button-e ekbar click kore apnar phone-er normal PIN, Pattern ba Fingerprint diye unlock korlei kalo screen shoriye phone abar shabhabik hoye jabe.'
+            }
+        ];
+
+        const faqList = document.getElementById('faqList');
+        faqData.forEach((item) => {
+            const box = document.createElement('div');
+            box.className = 'glass-card rounded-2xl p-5 sm:p-6 cursor-pointer reveal';
+            box.innerHTML = `
+                <div class="flex items-center justify-between gap-4">
+                    <h3 class="font-heading font-bold text-white text-base sm:text-lg flex items-center gap-3">
+                        <i class="fa-solid fa-circle-question text-electricCyan shrink-0"></i>
+                        <span>${item.q}</span>
+                    </h3>
+                    <i class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform duration-300 faq-chevron shrink-0"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-inner">
+                        <p class="pt-4 mt-3 border-t border-slate-800/80 text-slate-300 text-sm leading-relaxed">${item.a}</p>
+                    </div>
+                </div>
+            `;
+            box.addEventListener('click', () => {
+                const content = box.querySelector('.accordion-content');
+                const chevron = box.querySelector('.faq-chevron');
+                const isOpen = content.classList.toggle('open');
+                chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+            faqList.appendChild(box);
+        });
+
+        // 5. Smooth Scroll Reveal Animation
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // 6. Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 450) {
+                backToTop.classList.remove('opacity-0', 'pointer-events-none');
+                backToTop.classList.add('opacity-100');
+            } else {
+                backToTop.classList.add('opacity-0', 'pointer-events-none');
+                backToTop.classList.remove('opacity-100');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
+
