@@ -97,6 +97,117 @@
             overflow: hidden;
         }
     </style>
+
+<style id="ns-3d-upgrade">
+  /* গ্লোয়িং স্ক্রল রোডম্যাপ */
+  .ns-roadmap-track {
+    position: fixed; top: 0; left: 5px; width: 3px; height: 100vh;
+    background: rgba(139, 92, 246, 0.14); z-index: 999; pointer-events: none; border-radius: 99px;
+  }
+  .ns-roadmap-fill {
+    position: relative; width: 100%; height: 0%;
+    background: linear-gradient(180deg, #a855f7 0%, #ec4899 50%, #38bdf8 100%);
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.75); border-radius: 99px;
+  }
+  .ns-roadmap-fill::after {
+    content: ""; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+    width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; box-shadow: 0 0 10px #38bdf8;
+  }
+
+  /* ভাসমান ৩ডি শিল্ড আইকন */
+  .ns-float-shields {
+    display: flex; justify-content: center; align-items: center; gap: 26px; margin-bottom: 14px;
+  }
+  .ns-shield-slot { position: relative; display: flex; align-items: center; justify-content: center; }
+  .ns-shield-slot::before {
+    content: ""; position: absolute; width: 76px; height: 76px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.42) 0%, transparent 72%); pointer-events: none;
+  }
+  .ns-shield-slot.cyan::before {
+    width: 88px; height: 88px;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.42) 0%, transparent 72%);
+  }
+  .ns-shield-img {
+    position: relative; z-index: 1; width: 54px; height: auto;
+    animation: nsFloat3D 4.2s ease-in-out infinite; will-change: transform; pointer-events: none;
+  }
+  .ns-shield-img.wings {
+    width: 72px; mix-blend-mode: screen; filter: brightness(1.06) contrast(1.14); animation-delay: -2.1s;
+  }
+  @keyframes nsFloat3D {
+    0%, 100% { transform: perspective(700px) translate3d(0, 0, 0) rotateY(-12deg) rotateX(6deg); }
+    50% { transform: perspective(700px) translate3d(0, -11px, 0) rotateY(12deg) rotateX(-6deg); }
+  }
+
+  /* রিয়েলিস্টিক ৩ডি স্মার্টফোন ডেমো */
+  .ns-phone-3d {
+    position: relative; width: 100%; border-radius: 40px;
+    background: linear-gradient(165deg, #0b1122 0%, #050814 100%);
+    border: 4px solid #334155;
+    box-shadow: 0 24px 55px rgba(0, 0, 0, 0.7), 0 0 28px rgba(56, 189, 248, 0.16), inset 0 1px 1px rgba(255,255,255,0.14);
+    padding: 14px; overflow: visible; transition: transform 0.25s ease;
+  }
+  .ns-phone-shake { animation: nsShakePhone 0.48s cubic-bezier(.36,.07,.19,.97) both; }
+  @keyframes nsShakePhone {
+    10%, 90% { transform: translate3d(-3px, 0, 0) rotate(-1deg); }
+    20%, 80% { transform: translate3d(4px, 0, 0) rotate(1.5deg); }
+    30%, 50%, 70% { transform: translate3d(-5px, 0, 0) rotate(-1.5deg); }
+    40%, 60% { transform: translate3d(5px, 0, 0) rotate(1deg); }
+  }
+
+  /* টগল সুইচ */
+  .ns-switch {
+    position: relative; width: 36px; height: 20px; border-radius: 99px;
+    background: #1e293b; border: 1px solid rgba(148,163,184,0.3); cursor: pointer; transition: 0.25s;
+  }
+  .ns-switch.on { background: linear-gradient(90deg, #8b5cf6, #06b6d4); border-color: #38bdf8; }
+  .ns-switch::after {
+    content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+    border-radius: 50%; background: #fff; transition: 0.25s;
+  }
+  .ns-switch.on::after { transform: translateX(16px); }
+
+  /* ৩ডি হলোগ্রাফিক পপ-আউট কার্ড (SMS, GPS, Call) */
+  .ns-holo-stack {
+    position: absolute; left: -12px; right: -12px; top: 44%; z-index: 40;
+    display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+  }
+  .ns-holo-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 27, 75, 0.95));
+    border: 1px solid rgba(56, 189, 248, 0.65);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(168, 85, 247, 0.35);
+    border-radius: 14px; padding: 9px 12px;
+    opacity: 0; transform: perspective(600px) translateY(16px) scale(0.92) rotateX(12deg);
+    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ns-holo-card.show {
+    opacity: 1; transform: perspective(600px) translateY(0) scale(1) rotateX(0deg);
+  }
+
+  /* অডিও ওয়েভফর্ম বার */
+  .ns-wave { display: flex; align-items: center; gap: 2px; height: 14px; }
+  .ns-wave span {
+    width: 2.5px; height: 4px; background: #38bdf8; border-radius: 99px; transition: height 0.2s;
+  }
+  .ns-wave.active span { background: #fb7185; animation: nsWaveAnim 0.7s ease-in-out infinite alternate; }
+  .ns-wave.active span:nth-child(2) { animation-delay: 0.15s; }
+  .ns-wave.active span:nth-child(3) { animation-delay: 0.3s; }
+  .ns-wave.active span:nth-child(4) { animation-delay: 0.1s; }
+  .ns-wave.active span:nth-child(5) { animation-delay: 0.25s; }
+  @keyframes nsWaveAnim { 0% { height: 4px; } 100% { height: 14px; } }
+
+  /* কার্ড ৩ডি আপগ্রেড */
+  .glass-card {
+    border: 1px solid rgba(168, 85, 247, 0.26) !important;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+  }
+  .glass-card:hover {
+    border-color: rgba(56, 189, 248, 0.6) !important;
+    box-shadow: 0 16px 32px rgba(56, 189, 248, 0.14), 0 0 18px rgba(168, 85, 247, 0.22);
+  }
+</style>
+
 </head>
 <body class="text-slate-100 font-sans antialiased selection:bg-electricCyan selection:text-deepBlue">
 
@@ -229,60 +340,141 @@
                             </div>
                         </div>
 
-                        <!-- Actual Phone Frame -->
-                        <div class="relative w-full aspect-[9/18.2] bg-darkNavy rounded-[42px] border-[5px] border-slate-700/90 shadow-2xl shadow-electricCyan/10 p-4 flex flex-col justify-between overflow-hidden">
-                            <!-- Speaker Notch -->
-                            <div class="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 bg-slate-950 rounded-full z-20 flex items-center justify-center">
-                                <div class="w-10 h-1 bg-slate-700 rounded-full"></div>
+                        <!-- Floating 3D Shield Icons -->
+                        <div class="ns-float-shields">
+                            <div class="ns-shield-slot">
+                                <svg class="ns-shield-img" style="filter: drop-shadow(0 6px 14px rgba(139, 61, 255, 0.6));" viewBox="0 0 100 112" xmlns="http://www.w3.org/2000/svg" aria-label="Purple Shield">
+                                    <path d="M50 4 L92 23 V55 C92 80 73 99 50 108 C27 99 8 80 8 55 V23 Z" fill="#8B3DFF"/>
+                                </svg>
                             </div>
+                            <div class="ns-shield-slot cyan">
+                                <img src="guardian-shield.jpg" alt="Guardian Shield" class="ns-shield-img wings" loading="eager">
+                            </div>
+                        </div>
 
-                            <!-- Screen Header -->
-                            <div class="pt-7 pb-3 flex items-center justify-between border-b border-slate-800/90">
-                                <div>
-                                    <div class="text-xs font-extrabold text-electricCyan tracking-wide">NARI SURAKSHA</div>
-                                    <div class="text-[10px] text-slate-400">Console v4.0 • Live Demo</div>
+                        <!-- Realistic 3D Phone Frame -->
+                        <div id="nsPhoneFrame" class="ns-phone-3d flex flex-col justify-between text-left">
+                            <!-- Dynamic Island & Status Bar -->
+                            <div>
+                                <div class="flex items-center justify-between text-[10px] text-slate-400 px-1.5 mb-1.5">
+                                    <span id="nsClock" class="font-bold text-slate-200">19:25</span>
+                                    <div class="w-20 h-4 bg-black rounded-full border border-slate-800 flex items-center justify-end px-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    </div>
+                                    <span class="flex items-center gap-1 text-[9px] text-emerald-400 font-semibold">5G <i class="fa-solid fa-battery-three-quarters"></i></span>
                                 </div>
-                                <span id="simBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                                    READY
-                                </span>
+
+                                <!-- App Top Bar -->
+                                <div class="flex items-center justify-between pb-2 border-b border-slate-800/90">
+                                    <div>
+                                        <div class="text-[11px] font-extrabold text-electricCyan tracking-wide">NARI SURAKSHA</div>
+                                        <div class="text-[9px] text-slate-400">v4.0 Guard Console</div>
+                                    </div>
+                                    <span id="simBadge" class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/35">
+                                        SHIELD ON
+                                    </span>
+                                </div>
+
+                                <!-- Guard Mode & Shield Protection Switches -->
+                                <div class="mt-2 grid grid-cols-2 gap-1.5">
+                                    <div class="bg-slate-900/90 border border-purple-500/25 rounded-xl p-2 flex items-center justify-between">
+                                        <div>
+                                            <div class="text-[10px] font-bold text-slate-200">Guard Mode</div>
+                                            <div id="guardSub" class="text-[8px] text-purple-300">Shake 4x Active</div>
+                                        </div>
+                                        <button type="button" id="toggleGuard" class="ns-switch on" aria-label="Guard Mode"></button>
+                                    </div>
+                                    <div class="bg-slate-900/90 border border-cyan-500/25 rounded-xl p-2 flex items-center justify-between">
+                                        <div>
+                                            <div class="text-[10px] font-bold text-slate-200">Shield Lock</div>
+                                            <div id="shieldSub" class="text-[8px] text-cyan-300">Anti-Off Ready</div>
+                                        </div>
+                                        <button type="button" id="toggleShield" class="ns-switch on" aria-label="Shield Lock"></button>
+                                    </div>
+                                </div>
+
+                                <!-- Contacts & Police Helpline Box -->
+                                <div class="mt-2 bg-slate-900/85 border border-slate-800 rounded-xl p-2 space-y-1.5">
+                                    <div class="flex items-center justify-between text-[9px]">
+                                        <span class="text-slate-400"><i class="fa-solid fa-user-shield text-purple-400 mr-1"></i>Primary:</span>
+                                        <input id="nsPrimaryNum" type="text" value="+91 98300 41210" class="bg-transparent text-right text-slate-200 font-semibold w-28 focus:outline-none focus:text-electricCyan border-b border-transparent focus:border-electricCyan/50">
+                                    </div>
+                                    <div class="flex items-center justify-between text-[9px]">
+                                        <span class="text-slate-400"><i class="fa-solid fa-phone-volume text-cyan-400 mr-1"></i>Backup:</span>
+                                        <input id="nsBackupNum" type="text" value="+91 97481 88920" class="bg-transparent text-right text-slate-200 font-semibold w-28 focus:outline-none focus:text-electricCyan border-b border-transparent focus:border-electricCyan/50">
+                                    </div>
+                                    <div class="pt-1 border-t border-slate-800/80 flex items-center justify-between text-[9px]">
+                                        <span class="text-rose-300 font-bold"><i class="fa-solid fa-building-shield text-rose-400 mr-1"></i>Police Box: 112 / 100</span>
+                                        <label class="inline-flex items-center gap-1 cursor-pointer text-emerald-400 font-bold">
+                                            <input id="nsPoliceCheck" type="checkbox" checked class="accent-rose-500 w-3 h-3"> Auto-Alert
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Interactive SOS Center -->
-                            <div class="my-auto flex flex-col items-center justify-center py-4">
+                            <!-- 3D Pop-Out Holographic Cards (Trigger on SOS) -->
+                            <div id="nsHoloStack" class="ns-holo-stack">
+                                <div id="holoSms" class="ns-holo-card">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-extrabold text-purple-300"><i class="fa-solid fa-paper-plane mr-1"></i>3D EMERGENCY SMS SENT</span>
+                                        <span class="text-[8px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">DELIVERED</span>
+                                    </div>
+                                    <div id="holoSmsText" class="text-[9px] text-slate-300 mt-0.5">Alert sent to Primary, Backup & 112 Police</div>
+                                </div>
+                                <div id="holoGps" class="ns-holo-card">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-extrabold text-electricCyan"><i class="fa-solid fa-location-dot mr-1 animate-bounce"></i>LIVE GPS PIN LOCKED</span>
+                                        <span class="text-[8px] text-cyan-300 font-mono">23.3321° N, 86.3652° E</span>
+                                    </div>
+                                    <div class="text-[9px] text-slate-300 mt-0.5">Google Maps Live Link + Battery 86% Shared</div>
+                                </div>
+                                <div id="holoCall" class="ns-holo-card">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-extrabold text-rose-400"><i class="fa-solid fa-phone-flip mr-1"></i>AUTO-CALL + CLOUD AUDIO</span>
+                                        <span class="text-[8px] text-amber-300 font-bold">48kHz REC</span>
+                                    </div>
+                                    <div class="text-[9px] text-slate-300 mt-0.5">Calling Primary Contact & Uploading Proof...</div>
+                                </div>
+                            </div>
+
+                            <!-- Center SOS Button + Shake Trigger -->
+                            <div class="my-2.5 flex flex-col items-center justify-center">
                                 <button id="demoSosBtn" type="button" class="relative flex items-center justify-center group focus:outline-none">
-                                    <span id="demoPulseRing" class="absolute w-36 h-36 rounded-full sos-pulse bg-sosRed/20 pointer-events-none"></span>
-                                    <span class="relative w-28 h-28 rounded-full bg-gradient-to-tr from-rose-600 via-sosRed to-pink-500 flex flex-col items-center justify-center text-white font-black shadow-xl shadow-sosRed/40 group-hover:scale-105 active:scale-95 transition-transform">
-                                        <i id="demoSosIcon" class="fa-solid fa-triangle-exclamation text-2xl mb-1"></i>
-                                        <span id="demoSosLabel" class="text-xl tracking-wide leading-none">SOS</span>
-                                        <span id="demoSosSub" class="text-[9px] font-semibold opacity-90 mt-1">TAP FOR DEMO</span>
+                                    <span id="demoPulseRing" class="absolute w-28 h-28 rounded-full sos-pulse bg-sosRed/25 pointer-events-none"></span>
+                                    <span class="relative w-22 h-22 w-[86px] h-[86px] rounded-full bg-gradient-to-tr from-rose-600 via-sosRed to-pink-500 flex flex-col items-center justify-center text-white font-black shadow-xl shadow-sosRed/50 group-hover:scale-105 active:scale-95 transition-transform border-2 border-white/20">
+                                        <i id="demoSosIcon" class="fa-solid fa-triangle-exclamation text-lg mb-0.5"></i>
+                                        <span id="demoSosLabel" class="text-base tracking-wider leading-none">SOS</span>
+                                        <span id="demoSosSub" class="text-[8px] font-semibold opacity-90 mt-0.5">TAP DEMO</span>
                                     </span>
                                 </button>
+                                <button id="nsShakeBtn" type="button" class="mt-2.5 px-3 py-1 rounded-full bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/35 text-[9px] font-bold text-purple-200 transition">
+                                    <i class="fa-solid fa-mobile-screen-button mr-1"></i>Simulate 4x Shake Trigger
+                                </button>
+                            </div>
 
-                                <!-- Live Simulation Feed Inside Phone -->
-                                <div id="simStatusBox" class="mt-7 w-full rounded-xl bg-slate-900/90 border border-slate-800 p-3 text-center transition-all">
-                                    <div id="simStepTitle" class="text-[11px] font-bold text-slate-200">
-                                        Demo Dekhte SOS Button-e Tap Korun
+                            <!-- Bottom Stealth Call & Audio Recording Panel -->
+                            <div>
+                                <div class="rounded-xl bg-slate-900/95 border border-slate-800 px-2.5 py-2 flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <button id="nsRecToggle" type="button" class="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 flex items-center justify-center text-[10px]" title="Toggle Stealth Rec">
+                                            <i class="fa-solid fa-microphone"></i>
+                                        </button>
+                                        <div>
+                                            <div id="nsRecTitle" class="text-[9px] font-bold text-slate-200">Stealth Call & Mic Rec</div>
+                                            <div id="nsRecTimer" class="text-[8px] text-slate-400 font-mono">Standby • 48kHz Encrypted</div>
+                                        </div>
                                     </div>
-                                    <div id="simStepDesc" class="text-[10px] text-slate-400 mt-1">
-                                        Real app-e 4 bar biporit jhakuni ba tap-ei chalu hoy
+                                    <div id="nsWaveBox" class="ns-wave">
+                                        <span></span><span></span><span></span><span></span><span></span>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Mini Storage & Cloud Bar inside Phone -->
-                            <div class="rounded-xl bg-slate-900/80 border border-slate-800/90 px-3 py-2 flex items-center justify-between text-[10px]">
-                                <span class="flex items-center gap-1.5 text-slate-300">
-                                    Storage <i class="fa-solid fa-circle-check text-emerald-400"></i>
-                                </span>
-                                <span class="flex items-center gap-1.5 text-slate-300">
-                                    Cloud Sync <i id="simCloudIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
-                                </span>
+                                <!-- Bottom Home Pill -->
+                                <div class="pt-2.5 text-center">
+                                    <div class="w-24 h-1 bg-slate-700 mx-auto rounded-full"></div>
+                                </div>
                             </div>
-
-                            <!-- Bottom Home Pill -->
-                            <div class="pt-3 pb-1 text-center">
-                                <div class="w-28 h-1 bg-slate-700 mx-auto rounded-full"></div>
-                            </div>
+                        </div>
                         </div>
 
                     </div>
@@ -943,6 +1135,135 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
+
+<script id="ns-3d-script">
+  document.addEventListener("DOMContentLoaded", () => {
+    // ১. গ্লোয়িং স্ক্রল রোডম্যাপ
+    const track = document.createElement("div");
+    track.className = "ns-roadmap-track";
+    const fill = document.createElement("div");
+    fill.className = "ns-roadmap-fill";
+    track.appendChild(fill);
+    document.body.appendChild(track);
+
+    let ticking = false;
+    const updateRoadmap = () => {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      fill.style.height = Math.min(100, Math.max(0, (st / max) * 100)) + "%";
+      ticking = false;
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) { requestAnimationFrame(updateRoadmap); ticking = true; }
+    }, { passive: true });
+    updateRoadmap();
+
+    // ২. ৩ডি স্মার্টফোন ইন্টারঅ্যাক্টিভ ডেমো লজিক
+    const phone = document.getElementById("nsPhoneFrame");
+    const sosBtn = document.getElementById("demoSosBtn");
+    const shakeBtn = document.getElementById("nsShakeBtn");
+    const badge = document.getElementById("simBadge");
+    const sosLabel = document.getElementById("demoSosLabel");
+    const sosSub = document.getElementById("demoSosSub");
+    const holoSms = document.getElementById("holoSms");
+    const holoGps = document.getElementById("holoGps");
+    const holoCall = document.getElementById("holoCall");
+    const holoSmsText = document.getElementById("holoSmsText");
+    const recToggle = document.getElementById("nsRecToggle");
+    const recTitle = document.getElementById("nsRecTitle");
+    const recTimer = document.getElementById("nsRecTimer");
+    const waveBox = document.getElementById("nsWaveBox");
+    const toggleGuard = document.getElementById("toggleGuard");
+    const toggleShield = document.getElementById("toggleShield");
+
+    if (toggleGuard) {
+      toggleGuard.addEventListener("click", () => {
+        toggleGuard.classList.toggle("on");
+        document.getElementById("guardSub").textContent = toggleGuard.classList.contains("on") ? "Shake 4x Active" : "Paused";
+      });
+    }
+    if (toggleShield) {
+      toggleShield.addEventListener("click", () => {
+        toggleShield.classList.toggle("on");
+        const isOn = toggleShield.classList.contains("on");
+        document.getElementById("shieldSub").textContent = isOn ? "Anti-Off Ready" : "Disabled";
+        badge.textContent = isOn ? "SHIELD ON" : "SHIELD OFF";
+      });
+    }
+
+    let recInterval = null, recSec = 0, sosActive = false, timers = [];
+
+    const setRecording = (active) => {
+      clearInterval(recInterval);
+      if (active) {
+        waveBox.classList.add("active");
+        recTitle.textContent = "Recording Stealth Audio...";
+        recTitle.classList.add("text-rose-400");
+        recSec = 0;
+        recInterval = setInterval(() => {
+          recSec++;
+          const m = String(Math.floor(recSec / 60)).padStart(2, "0");
+          const s = String(recSec % 60).padStart(2, "0");
+          recTimer.textContent = `REC ${m}:${s} • Hidden Vault`;
+        }, 1000);
+      } else {
+        waveBox.classList.remove("active");
+        recTitle.textContent = "Stealth Call & Mic Rec";
+        recTitle.classList.remove("text-rose-400");
+        recTimer.textContent = "Standby • 48kHz Encrypted";
+      }
+    };
+
+    if (recToggle) {
+      recToggle.addEventListener("click", () => {
+        setRecording(!waveBox.classList.contains("active"));
+      });
+    }
+
+    const triggerSosDemo = (isShake) => {
+      timers.forEach(t => clearTimeout(t));
+      timers = [];
+
+      if (sosActive) {
+        sosActive = false;
+        holoSms.classList.remove("show");
+        holoGps.classList.remove("show");
+        holoCall.classList.remove("show");
+        badge.textContent = "SHIELD ON";
+        badge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/35";
+        sosLabel.textContent = "SOS";
+        sosSub.textContent = "TAP DEMO";
+        setRecording(false);
+        return;
+      }
+
+      sosActive = true;
+      if (isShake && phone) {
+        phone.classList.remove("ns-phone-shake");
+        void phone.offsetWidth;
+        phone.classList.add("ns-phone-shake");
+      }
+
+      const pNum = document.getElementById("nsPrimaryNum")?.value || "Primary";
+      const pol = document.getElementById("nsPoliceCheck")?.checked ? " + 112 Police" : "";
+      holoSmsText.textContent = `Sent to ${pNum}${pol}`;
+
+      badge.textContent = "SOS ACTIVE";
+      badge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-rose-500/25 text-rose-300 border border-rose-500/50 animate-pulse";
+      sosLabel.textContent = "STOP";
+      sosSub.textContent = "TAP TO RESET";
+      setRecording(true);
+
+      timers.push(setTimeout(() => holoSms.classList.add("show"), 250));
+      timers.push(setTimeout(() => holoGps.classList.add("show"), 1100));
+      timers.push(setTimeout(() => holoCall.classList.add("show"), 2000));
+    };
+
+    if (sosBtn) sosBtn.addEventListener("click", () => triggerSosDemo(false));
+    if (shakeBtn) shakeBtn.addEventListener("click", () => triggerSosDemo(true));
+  });
+</script>
+
 </body>
 </html>
 
