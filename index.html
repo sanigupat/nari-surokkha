@@ -147,12 +147,12 @@
     box-shadow: 0 24px 55px rgba(0, 0, 0, 0.7), 0 0 28px rgba(56, 189, 248, 0.16), inset 0 1px 1px rgba(255,255,255,0.14);
     padding: 14px; overflow: visible; transition: transform 0.25s ease;
   }
-  .ns-phone-shake { animation: nsShakePhone 0.48s cubic-bezier(.36,.07,.19,.97) both; }
+  .ns-phone-shake { animation: nsShakePhone 0.52s cubic-bezier(.36,.07,.19,.97) both; }
   @keyframes nsShakePhone {
-    10%, 90% { transform: translate3d(-3px, 0, 0) rotate(-1deg); }
-    20%, 80% { transform: translate3d(4px, 0, 0) rotate(1.5deg); }
-    30%, 50%, 70% { transform: translate3d(-5px, 0, 0) rotate(-1.5deg); }
-    40%, 60% { transform: translate3d(5px, 0, 0) rotate(1deg); }
+    10%, 90% { transform: translate3d(-4px, 0, 0) rotate(-1.3deg); }
+    20%, 80% { transform: translate3d(5px, 0, 0) rotate(1.6deg); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0) rotate(-1.8deg); }
+    40%, 60% { transform: translate3d(6px, 0, 0) rotate(1.4deg); }
   }
 
   /* টগল সুইচ */
@@ -167,21 +167,70 @@
   }
   .ns-switch.on::after { transform: translateX(16px); }
 
-  /* ৩ডি হলোগ্রাফিক পপ-আউট কার্ড (SMS, GPS, Call) */
+  /* ফ্লোটিং ব্যাকআপ নোটিফিকেশন পপ-আপ */
+  .ns-backup-toast {
+    position: absolute; top: 10px; left: 10px; right: 10px; z-index: 60;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.96));
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(56, 189, 248, 0.55);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.7), 0 0 16px rgba(56, 189, 248, 0.22);
+    border-radius: 14px; padding: 8px 11px;
+    opacity: 0; transform: translateY(-14px) scale(0.95);
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ns-backup-toast.show {
+    opacity: 1; transform: translateY(0) scale(1);
+  }
+
+  /* SOS অ্যাক্টিভ হলে পেছনের অংশ স্মুথ ডিম ও ব্লার */
+  .ns-sos-center {
+    transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s ease;
+  }
+  .ns-sos-center.dimmed {
+    opacity: 0.22; filter: blur(2.5px); transform: scale(0.94);
+  }
+
+  /* ৩ডি ফ্লোটিং হলোগ্রাফিক ওভারলে উইন্ডো */
   .ns-holo-stack {
-    position: absolute; left: -12px; right: -12px; top: 44%; z-index: 40;
-    display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+    position: absolute; left: -14px; right: -14px; top: 43%; z-index: 45;
+    display: flex; flex-direction: column; gap: 8px;
+    pointer-events: none;
   }
   .ns-holo-card {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 27, 75, 0.95));
+    background: linear-gradient(135deg, rgba(11, 18, 38, 0.94), rgba(30, 27, 75, 0.93));
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(56, 189, 248, 0.65);
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.65), 0 0 16px rgba(168, 85, 247, 0.35);
-    border-radius: 14px; padding: 9px 12px;
-    opacity: 0; transform: perspective(600px) translateY(16px) scale(0.92) rotateX(12deg);
-    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.72), 0 0 22px rgba(168, 85, 247, 0.32), inset 0 1px 0 rgba(255,255,255,0.12);
+    border-radius: 15px; padding: 9px 12px;
+    opacity: 0;
+    transform: perspective(750px) translateY(22px) scale(0.88) rotateX(16deg);
+    transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .ns-holo-card.show {
-    opacity: 1; transform: perspective(600px) translateY(0) scale(1) rotateX(0deg);
+    opacity: 1;
+    transform: perspective(750px) translateY(0) scale(1) rotateX(0deg);
+  }
+  .ns-holo-card.show:nth-child(1) { border-color: rgba(168, 85, 247, 0.72); }
+  .ns-holo-card.show:nth-child(2) { border-color: rgba(56, 189, 248, 0.75); }
+  .ns-holo-card.show:nth-child(3) { border-color: rgba(251, 113, 133, 0.75); }
+
+  .ns-holo-reset {
+    align-self: center; margin-top: 2px;
+    padding: 5px 14px; border-radius: 999px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(251, 113, 133, 0.6);
+    color: #fda4af; font-size: 9px; font-weight: 700; letter-spacing: 0.03em;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65);
+    opacity: 0; transform: translateY(10px) scale(0.92);
+    pointer-events: none; cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ns-holo-reset.show {
+    opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;
+  }
+  .ns-holo-reset:hover {
+    background: rgba(225, 29, 72, 0.25); color: #ffffff;
   }
 
   /* অডিও ওয়েভফর্ম বার */
@@ -391,33 +440,54 @@
                                     </div>
                                 </div>
 
-                                <!-- Contacts & Police Helpline Box -->
-                                <div class="mt-2 bg-slate-900/85 border border-slate-800 rounded-xl p-2 space-y-1.5">
-                                    <div class="flex items-center justify-between text-[9px]">
-                                        <span class="text-slate-400"><i class="fa-solid fa-user-shield text-purple-400 mr-1"></i>Primary:</span>
+                                <!-- Contacts & Police Backup Box -->
+                                <div class="mt-2 bg-slate-900/85 border border-slate-800/90 rounded-xl p-2.5 space-y-1.5">
+                                    <div class="flex items-center justify-between text-[9px] gap-2">
+                                        <span class="text-slate-400 shrink-0"><i class="fa-solid fa-user text-purple-400 mr-1.5"></i>Name:</span>
+                                        <input id="nsContactName" type="text" value="Ananya Sen" class="bg-transparent text-right text-white font-bold w-32 focus:outline-none focus:text-electricCyan border-b border-transparent focus:border-electricCyan/50">
+                                    </div>
+                                    <div class="flex items-center justify-between text-[9px] gap-2">
+                                        <span class="text-slate-400 shrink-0"><i class="fa-solid fa-phone-volume text-cyan-400 mr-1"></i>Primary Number:</span>
                                         <input id="nsPrimaryNum" type="text" value="+91 98300 41210" class="bg-transparent text-right text-slate-200 font-semibold w-28 focus:outline-none focus:text-electricCyan border-b border-transparent focus:border-electricCyan/50">
                                     </div>
-                                    <div class="flex items-center justify-between text-[9px]">
-                                        <span class="text-slate-400"><i class="fa-solid fa-phone-volume text-cyan-400 mr-1"></i>Backup:</span>
-                                        <input id="nsBackupNum" type="text" value="+91 97481 88920" class="bg-transparent text-right text-slate-200 font-semibold w-28 focus:outline-none focus:text-electricCyan border-b border-transparent focus:border-electricCyan/50">
-                                    </div>
-                                    <div class="pt-1 border-t border-slate-800/80 flex items-center justify-between text-[9px]">
-                                        <span class="text-rose-300 font-bold"><i class="fa-solid fa-building-shield text-rose-400 mr-1"></i>Police Box: 112 / 100</span>
-                                        <label class="inline-flex items-center gap-1 cursor-pointer text-emerald-400 font-bold">
-                                            <input id="nsPoliceCheck" type="checkbox" checked class="accent-rose-500 w-3 h-3"> Auto-Alert
-                                        </label>
+                                    <div class="pt-1.5 border-t border-slate-800/90 space-y-1">
+                                        <div class="flex items-center justify-between text-[9px] gap-1">
+                                            <span class="text-rose-300 font-bold shrink-0"><i class="fa-solid fa-building-shield text-rose-400 mr-1"></i>Police / Backup:</span>
+                                            <div class="flex items-center gap-1.5">
+                                                <input id="nsPoliceBackupInput" type="text" value="112 / 100" placeholder="Khali" class="bg-slate-950/70 text-right text-slate-100 font-bold w-16 px-1.5 py-0.5 rounded border border-slate-700/80 focus:outline-none focus:border-electricCyan text-[8.5px]">
+                                                <button id="nsBackupToggle" type="button" class="px-1.5 py-0.5 rounded-md text-[8px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/25 transition shrink-0">
+                                                    Auto-Call
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="nsBackupHint" class="text-[8px] text-emerald-400/90 flex items-center justify-between">
+                                            <span><i class="fa-solid fa-circle-check mr-1"></i>Number set: SOS-e backup auto-call jabe</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- 3D Pop-Out Holographic Cards (Trigger on SOS) -->
+                            <!-- Floating Backup Status Toast Popup -->
+                            <div id="nsBackupToast" class="ns-backup-toast" role="status" aria-live="polite">
+                                <div class="flex items-center gap-2">
+                                    <span id="nsToastIcon" class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] shrink-0">
+                                        <i class="fa-solid fa-check"></i>
+                                    </span>
+                                    <div>
+                                        <div id="nsToastTitle" class="text-[9px] font-extrabold text-white leading-tight">Backup Auto-Call Active</div>
+                                        <div id="nsToastDesc" class="text-[8px] text-slate-300 leading-tight mt-0.5">Number set thakle SOS-e auto-call jabe</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3D Pop-Out Floating Overlay Windows (Trigger on SOS) -->
                             <div id="nsHoloStack" class="ns-holo-stack">
                                 <div id="holoSms" class="ns-holo-card">
                                     <div class="flex items-center justify-between">
                                         <span class="text-[10px] font-extrabold text-purple-300"><i class="fa-solid fa-paper-plane mr-1"></i>3D EMERGENCY SMS SENT</span>
                                         <span class="text-[8px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">DELIVERED</span>
                                     </div>
-                                    <div id="holoSmsText" class="text-[9px] text-slate-300 mt-0.5">Alert sent to Primary, Backup & 112 Police</div>
+                                    <div id="holoSmsText" class="text-[9px] text-slate-300 mt-0.5">Sent to Ananya Sen (+91 98300 41210) + 112 / 100</div>
                                 </div>
                                 <div id="holoGps" class="ns-holo-card">
                                     <div class="flex items-center justify-between">
@@ -431,15 +501,18 @@
                                         <span class="text-[10px] font-extrabold text-rose-400"><i class="fa-solid fa-phone-flip mr-1"></i>AUTO-CALL + CLOUD AUDIO</span>
                                         <span class="text-[8px] text-amber-300 font-bold">48kHz REC</span>
                                     </div>
-                                    <div class="text-[9px] text-slate-300 mt-0.5">Calling Primary Contact & Uploading Proof...</div>
+                                    <div id="holoCallText" class="text-[9px] text-slate-300 mt-0.5">Primary Call → Backup (112 / 100) Auto-Call Ready</div>
                                 </div>
+                                <button id="nsHoloResetBtn" type="button" class="ns-holo-reset">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i>Tap to Reset Demo
+                                </button>
                             </div>
 
                             <!-- Center SOS Button + Shake Trigger -->
-                            <div class="my-2.5 flex flex-col items-center justify-center">
+                            <div id="nsSosCenter" class="ns-sos-center my-2.5 flex flex-col items-center justify-center">
                                 <button id="demoSosBtn" type="button" class="relative flex items-center justify-center group focus:outline-none">
                                     <span id="demoPulseRing" class="absolute w-28 h-28 rounded-full sos-pulse bg-sosRed/25 pointer-events-none"></span>
-                                    <span class="relative w-22 h-22 w-[86px] h-[86px] rounded-full bg-gradient-to-tr from-rose-600 via-sosRed to-pink-500 flex flex-col items-center justify-center text-white font-black shadow-xl shadow-sosRed/50 group-hover:scale-105 active:scale-95 transition-transform border-2 border-white/20">
+                                    <span class="relative w-[86px] h-[86px] rounded-full bg-gradient-to-tr from-rose-600 via-sosRed to-pink-500 flex flex-col items-center justify-center text-white font-black shadow-xl shadow-sosRed/50 group-hover:scale-105 active:scale-95 transition-transform border-2 border-white/20">
                                         <i id="demoSosIcon" class="fa-solid fa-triangle-exclamation text-lg mb-0.5"></i>
                                         <span id="demoSosLabel" class="text-base tracking-wider leading-none">SOS</span>
                                         <span id="demoSosSub" class="text-[8px] font-semibold opacity-90 mt-0.5">TAP DEMO</span>
@@ -832,59 +905,7 @@
             });
         });
 
-        // 2. Interactive Hero Phone SOS Simulator
-        const demoSosBtn = document.getElementById('demoSosBtn');
-        const simBadge = document.getElementById('simBadge');
-        const demoSosLabel = document.getElementById('demoSosLabel');
-        const demoSosSub = document.getElementById('demoSosSub');
-        const simStepTitle = document.getElementById('simStepTitle');
-        const simStepDesc = document.getElementById('simStepDesc');
-        const simStatusBox = document.getElementById('simStatusBox');
-
-        let simActive = false;
-        let simTimers = [];
-
-        function resetSimulation() {
-            simTimers.forEach(t => clearTimeout(t));
-            simTimers = [];
-            simActive = false;
-            simBadge.textContent = 'READY';
-            simBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
-            demoSosLabel.textContent = 'SOS';
-            demoSosSub.textContent = 'TAP FOR DEMO';
-            simStatusBox.className = 'mt-7 w-full rounded-xl bg-slate-900/90 border border-slate-800 p-3 text-center transition-all';
-            simStepTitle.textContent = 'Demo Dekhte SOS Button-e Tap Korun';
-            simStepDesc.textContent = 'Real app-e 4 bar biporit jhakuni ba tap-ei chalu hoy';
-        }
-
-        demoSosBtn.addEventListener('click', () => {
-            if (simActive) {
-                resetSimulation();
-                return;
-            }
-            simActive = true;
-            simBadge.textContent = 'SOS ACTIVE';
-            simBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-sosRed/20 text-sosRed border border-sosRed/40 animate-pulse';
-            demoSosLabel.textContent = 'STOP';
-            demoSosSub.textContent = 'TAP TO RESET';
-            simStatusBox.className = 'mt-7 w-full rounded-xl bg-rose-950/50 border border-sosRed/40 p-3 text-center transition-all';
-
-            const steps = [
-                { delay: 0, title: 'Dhap 1: SOS Triggered (WakeLock ON)', desc: 'Shob emergency number-e GPS SMS pathano hocche...' },
-                { delay: 2200, title: 'Dhap 2: Primary Number-e Auto Call', desc: '30s ring check; na dhorle 3s por Police Helpline dial...' },
-                { delay: 4600, title: 'Dhap 3: Stealth Black Screen Active', desc: 'Screen kalo, speaker mute — shudhu mic chalu ache...' },
-                { delay: 7000, title: 'Dhap 4: 48kHz Gopon Audio Recording', desc: 'Lukano folder-e save ebong cloud backup sync cholche!' }
-            ];
-
-            steps.forEach(step => {
-                const timer = setTimeout(() => {
-                    if (!simActive) return;
-                    simStepTitle.textContent = step.title;
-                    simStepDesc.textContent = step.desc;
-                }, step.delay);
-                simTimers.push(timer);
-            });
-        });
+        // 2. Hero Phone SOS Simulator handled by #ns-3d-script
 
         // 3. 11 Audited Core Security Modules Data (100% Code Verified)
         const modulesData = [
@@ -1160,19 +1181,104 @@
     const phone = document.getElementById("nsPhoneFrame");
     const sosBtn = document.getElementById("demoSosBtn");
     const shakeBtn = document.getElementById("nsShakeBtn");
+    const sosCenter = document.getElementById("nsSosCenter");
     const badge = document.getElementById("simBadge");
     const sosLabel = document.getElementById("demoSosLabel");
     const sosSub = document.getElementById("demoSosSub");
     const holoSms = document.getElementById("holoSms");
     const holoGps = document.getElementById("holoGps");
     const holoCall = document.getElementById("holoCall");
+    const holoResetBtn = document.getElementById("nsHoloResetBtn");
     const holoSmsText = document.getElementById("holoSmsText");
+    const holoCallText = document.getElementById("holoCallText");
     const recToggle = document.getElementById("nsRecToggle");
     const recTitle = document.getElementById("nsRecTitle");
     const recTimer = document.getElementById("nsRecTimer");
     const waveBox = document.getElementById("nsWaveBox");
     const toggleGuard = document.getElementById("toggleGuard");
     const toggleShield = document.getElementById("toggleShield");
+
+    const nameInput = document.getElementById("nsContactName");
+    const primaryInput = document.getElementById("nsPrimaryNum");
+    const backupInput = document.getElementById("nsPoliceBackupInput");
+    const backupToggle = document.getElementById("nsBackupToggle");
+    const backupHint = document.getElementById("nsBackupHint");
+    const toastEl = document.getElementById("nsBackupToast");
+    const toastIcon = document.getElementById("nsToastIcon");
+    const toastTitle = document.getElementById("nsToastTitle");
+    const toastDesc = document.getElementById("nsToastDesc");
+
+    let lastSavedBackup = "112 / 100";
+    let toastTimer = null;
+
+    const showBackupToast = (isActive, numVal) => {
+      if (!toastEl) return;
+      clearTimeout(toastTimer);
+      if (isActive) {
+        toastEl.style.borderColor = "rgba(52, 211, 153, 0.65)";
+        toastIcon.className = "w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] shrink-0";
+        toastIcon.innerHTML = '<i class="fa-solid fa-phone-volume"></i>';
+        toastTitle.textContent = `Backup Auto-Call ON (${numVal})`;
+        toastDesc.textContent = "Number set ache — SOS trigger hole auto-call jabe.";
+      } else {
+        toastEl.style.borderColor = "rgba(251, 191, 36, 0.6)";
+        toastIcon.className = "w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-[10px] shrink-0";
+        toastIcon.innerHTML = '<i class="fa-solid fa-phone-slash"></i>';
+        toastTitle.textContent = "Backup Empty — No Auto-Call";
+        toastDesc.textContent = "Number dewa nei, tai SOS-e backup call jabe na.";
+      }
+      toastEl.classList.add("show");
+      toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2800);
+    };
+
+    const syncBackupUI = (triggerPopup = false) => {
+      const val = (backupInput?.value || "").trim();
+      const hasBackup = val.length > 0;
+      if (hasBackup) {
+        lastSavedBackup = val;
+        backupToggle.textContent = "Auto-Call";
+        backupToggle.className = "px-1.5 py-0.5 rounded-md text-[8px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/25 transition shrink-0";
+        backupHint.className = "text-[8px] text-emerald-400/90 flex items-center justify-between";
+        backupHint.innerHTML = '<span><i class="fa-solid fa-circle-check mr-1"></i>Number set: SOS-e backup auto-call jabe</span>';
+      } else {
+        backupToggle.textContent = "Set 112";
+        backupToggle.className = "px-1.5 py-0.5 rounded-md text-[8px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/35 hover:bg-amber-500/25 transition shrink-0";
+        backupHint.className = "text-[8px] text-amber-300/90 flex items-center justify-between";
+        backupHint.innerHTML = '<span><i class="fa-solid fa-circle-xmark mr-1"></i>Number khali: SOS-e backup call jabe na</span>';
+      }
+      updateHoloTexts();
+      if (triggerPopup) showBackupToast(hasBackup, val);
+    };
+
+    const updateHoloTexts = () => {
+      const cName = (nameInput?.value || "Ananya Sen").trim();
+      const pNum = (primaryInput?.value || "+91 98300 41210").trim();
+      const bNum = (backupInput?.value || "").trim();
+      if (holoSmsText) {
+        holoSmsText.textContent = bNum
+          ? `Sent to ${cName} (${pNum}) + ${bNum}`
+          : `Sent to ${cName} (${pNum}) • No Backup`;
+      }
+      if (holoCallText) {
+        holoCallText.textContent = bNum
+          ? `Calling ${cName} → Backup (${bNum}) Auto-Call Ready`
+          : `Calling ${cName} Only • Backup Empty (No Call)`;
+      }
+    };
+
+    if (backupToggle) {
+      backupToggle.addEventListener("click", () => {
+        const val = (backupInput.value || "").trim();
+        backupInput.value = val ? "" : lastSavedBackup;
+        syncBackupUI(true);
+      });
+    }
+    if (backupInput) {
+      backupInput.addEventListener("input", () => syncBackupUI(false));
+      backupInput.addEventListener("change", () => syncBackupUI(true));
+    }
+    if (nameInput) nameInput.addEventListener("input", updateHoloTexts);
+    if (primaryInput) primaryInput.addEventListener("input", updateHoloTexts);
 
     if (toggleGuard) {
       toggleGuard.addEventListener("click", () => {
@@ -1185,7 +1291,7 @@
         toggleShield.classList.toggle("on");
         const isOn = toggleShield.classList.contains("on");
         document.getElementById("shieldSub").textContent = isOn ? "Anti-Off Ready" : "Disabled";
-        badge.textContent = isOn ? "SHIELD ON" : "SHIELD OFF";
+        if (!sosActive) badge.textContent = isOn ? "SHIELD ON" : "SHIELD OFF";
       });
     }
 
@@ -1218,47 +1324,60 @@
       });
     }
 
-    const triggerSosDemo = (isShake) => {
+    const resetSosDemo = () => {
       timers.forEach(t => clearTimeout(t));
       timers = [];
+      sosActive = false;
+      holoSms.classList.remove("show");
+      holoGps.classList.remove("show");
+      holoCall.classList.remove("show");
+      if (holoResetBtn) holoResetBtn.classList.remove("show");
+      if (sosCenter) sosCenter.classList.remove("dimmed");
+      badge.textContent = toggleShield?.classList.contains("on") ? "SHIELD ON" : "SHIELD OFF";
+      badge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/35";
+      badge.style.cursor = "default";
+      sosLabel.textContent = "SOS";
+      sosSub.textContent = "TAP DEMO";
+      setRecording(false);
+    };
 
+    const triggerSosDemo = (isShake) => {
       if (sosActive) {
-        sosActive = false;
-        holoSms.classList.remove("show");
-        holoGps.classList.remove("show");
-        holoCall.classList.remove("show");
-        badge.textContent = "SHIELD ON";
-        badge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/35";
-        sosLabel.textContent = "SOS";
-        sosSub.textContent = "TAP DEMO";
-        setRecording(false);
+        resetSosDemo();
         return;
       }
-
+      timers.forEach(t => clearTimeout(t));
+      timers = [];
       sosActive = true;
+
       if (isShake && phone) {
         phone.classList.remove("ns-phone-shake");
         void phone.offsetWidth;
         phone.classList.add("ns-phone-shake");
       }
 
-      const pNum = document.getElementById("nsPrimaryNum")?.value || "Primary";
-      const pol = document.getElementById("nsPoliceCheck")?.checked ? " + 112 Police" : "";
-      holoSmsText.textContent = `Sent to ${pNum}${pol}`;
+      updateHoloTexts();
+      if (sosCenter) sosCenter.classList.add("dimmed");
 
       badge.textContent = "SOS ACTIVE";
       badge.className = "text-[9px] font-bold px-2 py-0.5 rounded-full bg-rose-500/25 text-rose-300 border border-rose-500/50 animate-pulse";
+      badge.style.cursor = "pointer";
       sosLabel.textContent = "STOP";
       sosSub.textContent = "TAP TO RESET";
       setRecording(true);
 
-      timers.push(setTimeout(() => holoSms.classList.add("show"), 250));
-      timers.push(setTimeout(() => holoGps.classList.add("show"), 1100));
-      timers.push(setTimeout(() => holoCall.classList.add("show"), 2000));
+      timers.push(setTimeout(() => holoSms.classList.add("show"), 140));
+      timers.push(setTimeout(() => holoGps.classList.add("show"), 580));
+      timers.push(setTimeout(() => holoCall.classList.add("show"), 1020));
+      timers.push(setTimeout(() => holoResetBtn?.classList.add("show"), 1250));
     };
 
     if (sosBtn) sosBtn.addEventListener("click", () => triggerSosDemo(false));
     if (shakeBtn) shakeBtn.addEventListener("click", () => triggerSosDemo(true));
+    if (holoResetBtn) holoResetBtn.addEventListener("click", resetSosDemo);
+    if (badge) badge.addEventListener("click", () => { if (sosActive) resetSosDemo(); });
+
+    syncBackupUI(false);
   });
 </script>
 
